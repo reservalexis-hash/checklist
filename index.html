@@ -61,7 +61,7 @@
     const units = [];
     let id = 1;
 
-    // Floor 5: units 501â506 (6 units)
+    // Floor 5: units 501\u2013506 (6 units)
     for (let u = 1; u <= 6; u++) {
       units.push({
         id: id++,
@@ -72,7 +72,7 @@
       });
     }
 
-    // Floors 6â18: 5 units each (e.g. 601â605, 1001â1005)
+    // Floors 6\u201318: 5 units each (e.g. 601\u2013605, 1001\u20131005)
     for (let floor = 6; floor <= 18; floor++) {
       for (let u = 1; u <= 5; u++) {
         units.push({
@@ -85,7 +85,7 @@
       }
     }
 
-    // Penthouse PH1âPH4
+    // Penthouse PH1\u2013PH4
     for (let p = 1; p <= 4; p++) {
       units.push({
         id: id++,
@@ -96,7 +96,7 @@
       });
     }
 
-    // Townhouse TH-1âTH-4
+    // Townhouse TH-1\u2013TH-4
     for (let t = 1; t <= 4; t++) {
       units.push({
         id: id++,
@@ -307,7 +307,7 @@
       <nav className="bg-blue-700 text-white shadow-md sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center justify-between h-14">
-            <span className="font-bold text-lg tracking-tight">ð§ Maintenance</span>
+            <span className="font-bold text-lg tracking-tight">\u{1F527} Maintenance</span>
 
             {/* Desktop */}
             <div className="hidden md:flex space-x-1">
@@ -332,7 +332,7 @@
               className="p-2 rounded-lg hover:bg-blue-600 transition-colors ml-1"
               title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
-              {darkMode ? "âï¸" : "ð"}
+              {darkMode ? "\u2600\uFE0F" : "\u{1F319}"}
             </button>
           </div>
         </div>
@@ -414,7 +414,7 @@
             value={notes}
             onChange={e => setNotes(e.target.value)}
             onBlur={saveNotes}
-            placeholder="Add notesâ¦"
+            placeholder="Add notes\u2026"
             rows={1}
             className="mt-1.5 w-full text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-400 bg-white bg-opacity-70 placeholder-gray-300"
           />
@@ -463,7 +463,7 @@
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-semibold text-gray-800">{section}</span>
-                  {allDone && <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">â Complete</span>}
+                  {allDone && <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">\u2713 Complete</span>}
                   {flagged > 0 && (
                     <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full flex items-center gap-1">
                       <IconAlert />{flagged} flagged
@@ -718,11 +718,11 @@
                         check?.needs_attention  ? 'bg-amber-100 text-amber-700' :
                                                   'bg-gray-100 text-gray-500'
                       }`}>
-                        {check?.is_completed ? 'â Done' : check?.needs_attention ? 'â  Flagged' : 'â Pending'}
+                        {check?.is_completed ? '\u2713 Done' : check?.needs_attention ? '\u26A0 Flagged' : '\u2014 Pending'}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-400">{check?.check_date || 'â'}</td>
-                    <td className="px-4 py-3 text-xs text-gray-500 max-w-xs truncate">{check?.notes || 'â'}</td>
+                    <td className="px-4 py-3 text-xs text-gray-400">{check?.check_date || '\u2014'}</td>
+                    <td className="px-4 py-3 text-xs text-gray-500 max-w-xs truncate">{check?.notes || '\u2014'}</td>
                   </tr>
                 ))}
               </tbody>
@@ -793,7 +793,7 @@
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-xl font-bold text-gray-900">Manage Units</h1>
-              <p className="text-sm text-gray-400">{activeCount} active Â· {units.length} total</p>
+              <p className="text-sm text-gray-400">{activeCount} active \u00B7 {units.length} total</p>
             </div>
             <button onClick={() => setShowAdd(s => !s)}
               className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors">
@@ -844,7 +844,7 @@
           )}
 
           <input type="text" value={search} onChange={e => setSearch(e.target.value)}
-            placeholder="Search by unit #, section, or filter sizeâ¦"
+            placeholder="Search by unit #, section, or filter size\u2026"
             className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
 
@@ -1007,7 +1007,7 @@
 
     const buildCSV = () => {
       const lines = [
-        `Maintenance Report â ${formatMonth(month)}`,
+        `Maintenance Report \u2014 ${formatMonth(month)}`,
         `Generated,${new Date().toLocaleDateString()}`,
         ``,
         `Summary`,
@@ -1057,14 +1057,14 @@
           <td>${u.section}</td>
           <td style="font-family:monospace;font-size:12px">${u.filter_size}</td>
           <td><span style="padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;background:${done?'#d1fae5':flag?'#fef3c7':'#f3f4f6'};color:${done?'#065f46':flag?'#92400e':'#6b7280'}">
-            ${done ? 'â Done' : flag ? 'â  Flagged' : 'â Pending'}</span></td>
-          <td style="color:#9ca3af;font-size:12px">${c?.check_date||'â'}</td>
-          <td style="color:#6b7280;font-size:12px">${c?.notes||'â'}</td>
+            ${done ? '\u2713 Done' : flag ? '\u26A0 Flagged' : '\u2014 Pending'}</span></td>
+          <td style="color:#9ca3af;font-size:12px">${c?.check_date||'\u2014'}</td>
+          <td style="color:#6b7280;font-size:12px">${c?.notes||'\u2014'}</td>
         </tr>`;
       }).join('');
 
       const flaggedSection = stats.flaggedItems.length > 0 ? `
-        <h2 style="margin-top:32px">â ï¸ Items Needing Attention (${stats.flaggedItems.length})</h2>
+        <h2 style="margin-top:32px">\u26A0\uFE0F Items Needing Attention (${stats.flaggedItems.length})</h2>
         <table style="width:100%;border-collapse:collapse;margin-top:8px">
           <thead><tr style="background:#f3f4f6">
             <th style="${thStyle}">Unit</th><th style="${thStyle}">Section</th>
@@ -1074,16 +1074,16 @@
             <td style="${tdStyle}"><strong>${u.unit_number}</strong></td>
             <td style="${tdStyle}">${u.section}</td>
             <td style="${tdStyle};font-family:monospace;font-size:12px">${u.filter_size}</td>
-            <td style="${tdStyle};color:#9ca3af">${c.check_date||'â'}</td>
-            <td style="${tdStyle};color:#6b7280">${c.notes||'â'}</td>
+            <td style="${tdStyle};color:#9ca3af">${c.check_date||'\u2014'}</td>
+            <td style="${tdStyle};color:#6b7280">${c.notes||'\u2014'}</td>
           </tr>`).join('')}</tbody>
-        </table>` : `<p style="color:#059669;font-weight:600;margin-top:24px">â No items flagged for attention this month.</p>`;
+        </table>` : `<p style="color:#059669;font-weight:600;margin-top:24px">\u2705 No items flagged for attention this month.</p>`;
 
       const thStyle = `text-align:left;padding:8px 12px;font-size:11px;text-transform:uppercase;color:#6b7280;font-weight:600`;
       const tdStyle = `padding:8px 12px;border-bottom:1px solid #e5e7eb`;
 
       return `<!DOCTYPE html><html><head><meta charset="UTF-8">
-      <title>Maintenance Report â ${formatMonth(month)}</title>
+      <title>Maintenance Report \u2014 ${formatMonth(month)}</title>
       <style>
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:900px;margin:0 auto;padding:32px;color:#111827}
         h1{color:#1d4ed8;border-bottom:3px solid #1d4ed8;padding-bottom:12px;margin-bottom:4px}
@@ -1097,8 +1097,8 @@
         .stat-lbl{font-size:12px;color:#6b7280;margin-top:2px}
         footer{margin-top:40px;padding-top:16px;border-top:1px solid #e5e7eb;font-size:12px;color:#9ca3af}
       </style></head><body>
-      <h1>ð§ Maintenance Report</h1>
-      <p style="color:#6b7280;margin-top:4px">${formatMonth(month)} &nbsp;Â·&nbsp; Generated ${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</p>
+      <h1>\u{1F527} Maintenance Report</h1>
+      <p style="color:#6b7280;margin-top:4px">${formatMonth(month)} &nbsp;\u00B7&nbsp; Generated ${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</p>
       <div style="margin:24px 0">
         <div class="stat"><div class="stat-val" style="color:#1d4ed8">${stats.total}</div><div class="stat-lbl">Total Units</div></div>
         <div class="stat"><div class="stat-val" style="color:#059669">${stats.completed}</div><div class="stat-lbl">Completed</div></div>
@@ -1130,19 +1130,19 @@
     const handleSend = () => {
       const valid = recipients.filter(r => r.trim());
       if (!valid.length) { alert('Add at least one recipient email.'); return; }
-      const sub  = encodeURIComponent(`Maintenance Report â ${formatMonth(month)}`);
+      const sub  = encodeURIComponent(`Maintenance Report \u2014 ${formatMonth(month)}`);
       const body = encodeURIComponent(
         `Hi,\n\nPlease find attached the maintenance report for ${formatMonth(month)}.\n\n` +
         `SUMMARY\n` +
-        `ââââââââââââââââââââ\n` +
+        `\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n` +
         `Total Units:      ${stats.total}\n` +
         `Completed:        ${stats.completed} (${stats.rate}%)\n` +
         `Pending:          ${stats.pending}\n` +
         `Flagged:          ${stats.flagged}\n` +
         (stats.flaggedItems.length > 0
-          ? `\nFlagged Units:\n${stats.flaggedItems.map(({unit:u}) => `  â¢ Unit ${u.unit_number} (${u.section})`).join('\n')}\n`
-          : '\nâ No items flagged for attention.\n') +
-        `\nSee attached file for full details.\n\nâ Maintenance Team`
+          ? `\nFlagged Units:\n${stats.flaggedItems.map(({unit:u}) => `  \u2022 Unit ${u.unit_number} (${u.section})`).join('\n')}\n`
+          : '\n\u2705 No items flagged for attention.\n') +
+        `\nSee attached file for full details.\n\n\u2014 Maintenance Team`
       );
       const mailto = `mailto:${valid.join(',')}?subject=${sub}&body=${body}`;
       window.location.href = mailto;
@@ -1187,7 +1187,7 @@
                 <div key={sec} className="flex items-center gap-3">
                   <span className="text-xs text-gray-500 w-24 shrink-0 truncate">{sec}</span>
                   <div className="flex-1"><ProgressBar completed={d.completed} total={d.total} /></div>
-                  {d.flagged > 0 && <span className="text-xs text-amber-500 shrink-0">â  {d.flagged}</span>}
+                  {d.flagged > 0 && <span className="text-xs text-amber-500 shrink-0">\u26A0 {d.flagged}</span>}
                 </div>
               );
             })}
@@ -1196,14 +1196,14 @@
           {/* Flagged list */}
           {stats.flaggedItems.length > 0 && (
             <div className="mt-5 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-              <p className="text-sm font-semibold text-amber-800 mb-2">â ï¸ Needs Attention ({stats.flaggedItems.length})</p>
+              <p className="text-sm font-semibold text-amber-800 mb-2">\u26A0\uFE0F Needs Attention ({stats.flaggedItems.length})</p>
               <div className="space-y-1.5">
                 {stats.flaggedItems.map(({ unit: u, check: c }) => (
                   <div key={u.id} className="flex items-start gap-2 text-xs text-amber-700">
                     <span className="font-bold shrink-0">Unit {u.unit_number}</span>
-                    <span className="text-amber-400">Â·</span>
+                    <span className="text-amber-400">\u00B7</span>
                     <span className="shrink-0">{u.section}</span>
-                    {c.notes && <span className="text-amber-600 italic truncate">â {c.notes}</span>}
+                    {c.notes && <span className="text-amber-600 italic truncate">\u2014 {c.notes}</span>}
                   </div>
                 ))}
               </div>
@@ -1231,7 +1231,7 @@
 
           {emailStatus && (
             <div className="mb-4 flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl text-sm text-blue-700">
-              <span className="text-lg">âï¸</span>
+              <span className="text-lg">\u2709\uFE0F</span>
               <p>{emailStatus}</p>
             </div>
           )}
@@ -1270,7 +1270,7 @@
           </div>
 
           <div className="mb-5 p-4 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-500">
-            <p className="font-semibold text-gray-600 mb-1.5">ð To include an attachment:</p>
+            <p className="font-semibold text-gray-600 mb-1.5">\u{1F4CE} To include an attachment:</p>
             <ol className="list-decimal list-inside space-y-1">
               <li>Download the HTML or CSV report above</li>
               <li>Click <strong>Open Email Client</strong> below</li>
