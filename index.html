@@ -16,7 +16,7 @@
     .collapse-open { max-height: 9999px; overflow: visible; }
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #f1f5f9; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-rahdius: 3px; }
     /* Dark mode transitions */
     * { transition: background-color 0.2s ease, color 0.2s ease; }
     .dark-card { background-color: #1f2937; color: #f9fafb; }
@@ -624,9 +624,16 @@
   ================================================================ */
   function HistoryPage({ units, filterChecks }) {
     const [month, setMonth] = useState(getCurrentMonth);
+    const [dayFilter, setDayFilter]    = useState('');
     const [secFilter, setSecFilter]    = useState('');
     const [statusFilter, setStatusFilter] = useState('');
     const [unitSearch, setUnitSearch]  = useState('');
+
+    // Reset day filter when month changes
+    const handleMonthChange = (newMonth) => {
+      setMonth(newMonth);
+      setDayFilter('');
+    };
 
     const allSections = useMemo(() => {
       const s = [...new Set(units.map(u => u.section))];
@@ -637,6 +644,16 @@
       filterChecks.filter(c => c.check_month === month),
     [filterChecks, month]);
 
+    // Get available days from checks that have a check_date in this month
+    const availableDays = useMemo(() => {
+      const days = [...new Set(
+        monthChecks
+          .filter(c => c.check_date)
+          .map(c => c.check_date)
+      )].sort();
+      return days;
+    }, [monthChecks]);
+
     const rows = useMemo(() => {
       let data = units.map(u => ({ unit: u, check: monthChecks.find(c => c.unit_id === u.id) }));
 
@@ -645,9 +662,10 @@
       if (statusFilter === 'completed') data = data.filter(d => d.check?.is_completed);
       if (statusFilter === 'pending')   data = data.filter(d => !d.check?.is_completed);
       if (statusFilter === 'flagged')   data = data.filter(d => d.check?.needs_attention);
+      if (dayFilter)    data = data.filter(d => d.check?.check_date === dayFilter);
 
       return data;
-    }, [units, monthChecks, secFilter, unitSearch, statusFilter]);
+    }, [units, monthChecks, secFilter, unitSearch, statusFilter, dayFilter]);
 
     const stats = useMemo(() => {
       const total     = units.filter(u => u.is_active).length;
@@ -663,7 +681,17 @@
           <h1 className="text-xl font-bold text-gray-900 mb-4">History</h1>
 
           <div className="flex flex-wrap gap-3 mb-4">
-            <MonthSelector value={month} onChange={setMonth} />
+            <MonthSelector value={month} onChange={handleMonthChange} />
+            <div>
+              <select value={dayFilter} onChange={e => setDayFilter(e.target.value)}
+                className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Days</option>
+                {availableDays.map(d => {
+                  const [, , dd] = d.split('-');
+                  return <option key={d} value={d}>Day {parseInt(dd, 10)} &mdash; {d}</option>;
+                })}
+              </select>
+            </div>
             <div>
               <select value={secFilter} onChange={e => setSecFilter(e.target.value)}
                 className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -718,11 +746,11 @@
                         check?.needs_attention  ? 'bg-amber-100 text-amber-700' :
                                                   'bg-gray-100 text-gray-500'
                       }`}>
-                        {check?.is_completed ? '\u2713 Done' : check?.needs_attention ? '\u26A0 Flagged' : '\u2014 Pending'}
+                        {check?.is_completed ? '✓ Done' : check?.needs_attention ? '⚠ Flagged' : '— Pending'}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-400">{check?.check_date || '\u2014'}</td>
-                    <td className="px-4 py-3 text-xs text-gray-500 max-w-xs truncate">{check?.notes || '\u2014'}</td>
+                    <td className="px-4 py-3 text-xs text-gray-400">{check?.check_date || '—'}</td>
+                    <td className="px-4 py-3 text-xs text-gray-500 max-w-xs truncate">{check?.notes || '—'}</td>
                   </tr>
                 ))}
               </tbody>
@@ -732,7 +760,6 @@
       </div>
     );
   }
-
   /* ================================================================
      MANAGE UNITS PAGE
   ================================================================ */
